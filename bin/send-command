@@ -1,0 +1,3 @@
+#!/bin/sh
+
+bash -c "echo '$@' > '${MC_STDIN_PIPE:-/server/stdin}'"

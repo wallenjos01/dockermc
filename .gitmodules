@@ -1,0 +1,6 @@
+[submodule "mcdl"]
+	path = mcdl
+	url = https://github.com/wallenjos01/mcdl
+[submodule "mcping"]
+	path = mcping
+	url = https://github.com/wallenjos01/mcping

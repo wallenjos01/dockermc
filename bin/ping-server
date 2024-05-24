@@ -1,0 +1,13 @@
+#!/bin/sh
+
+append=""
+if [ -n "$MC_LEGACY_PING" ]; then
+	echo "Legacy mode detected"
+	append=" -l";
+fi
+
+if [ -n "$MC_HAPROXY_PING" ]; then
+	append="$append --haproxy";
+fi
+
+java -jar /server/mcping.jar --address localhost --port $MC_PORT $append && exit 0 || exit 1
