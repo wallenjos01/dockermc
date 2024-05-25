@@ -46,12 +46,12 @@ fi
 
 # Set user ID
 if [[ ! -z "${MC_UID}" ]] && [ ${MC_UID} -ne "0" ]; then
-	usermod -o -i $MC_UID minecraft
+	usermod -u $MC_UID minecraft
 fi
 
 # Set group ID
 if [[ ! -z "${MC_GID}" ]] && [ ${MC_UID} -ne "0" ]; then
-	groupmod -o -g $MC_GID minecraft
+	groupmod -g $MC_GID minecraft
 fi
 
 # Add more groups
