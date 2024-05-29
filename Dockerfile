@@ -52,7 +52,7 @@ RUN set -eux; \
 	apt-get update; \ 
     	apt-get install -y sudo
 
-COPY --chmod=775 docker-entrypoint.sh /
+COPY --chmod=775 docker-entrypoint.sh custom.ja[r] /
 COPY --from=0 --chown=minecraft:minecraft --chmod=775 /wrapper/wrapper /server
 COPY --chmod=775 bin/* /usr/bin
 
@@ -71,7 +71,10 @@ WORKDIR /server
 
 # Download Server
 COPY --from=1 --chmod=770 --chown=minecraft:minecraft /mcdl/build/output/mcdl.jar /server
-RUN cd /server && java -jar /server/mcdl.jar -t $TYPE -eg -v $VERSION --serverWorkingDir /data $MCDL_ARGS
+RUN set -eux; \
+	cd /server; \
+	java -jar /server/mcdl.jar -t $TYPE -g -v $VERSION --serverWorkingDir /data $MCDL_ARGS; \
+	rm /custom.jar
 
 USER root
 ENTRYPOINT [ "/docker-entrypoint.sh" ] 

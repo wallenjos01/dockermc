@@ -54,6 +54,13 @@ if [[ ! -z "${MC_GID}" ]] && [ ${MC_UID} -ne "0" ]; then
 	groupmod -g $MC_GID minecraft
 fi
 
+# Ensure ownership of data directory
+if [ ${MC_UID} -ne "0" ]; then
+    realUid=$(id -u minecraft)
+    realGid=$(id -g minecraft)
+    chown -R $realUid:$realGid /data
+fi
+
 # Add more groups
 if [[ ! -z "${MC_ADD_GROUPS}" ]] && [ ${MC_UID} -ne "0" ]; then 
 
