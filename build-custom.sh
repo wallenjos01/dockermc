@@ -1,7 +1,7 @@
-#!/bin/sh
+#!/bin/bash
 
 if [ $# -lt 2 ]; then
-	echo "Usage: $0 [type] [version] <[image tag]>"
+	echo "Usage: $0 [type] [version] <[image tag]> <[mcdl arguments]>"
 	exit 1
 fi
 
@@ -13,4 +13,4 @@ else
 fi
 
 tag=${3:-minecraft-server-$1}
-docker build -t $tag:$2 --build-arg TYPE=custom --build-arg VERSION=$2 --build-arg MCDL_ARGS="--customJarPath /custom.jar" .
+docker build -t $tag:$2 --build-arg TYPE=custom --build-arg VERSION=$2 --build-arg MCDL_ARGS="--customJarPath /custom.jar ${@:3}" .

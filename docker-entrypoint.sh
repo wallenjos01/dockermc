@@ -45,24 +45,24 @@ if [ "$1" = "/server/wrapper" ]; then
 fi
 
 # Set user ID
-if [[ ! -z "${MC_UID}" ]] && [ ${MC_UID} -ne "0" ]; then
+if [[ ! -z "${MC_UID}" ]] && [ ${MC_UID} != "0" ]; then
 	usermod -u $MC_UID minecraft
 fi
 
 # Set group ID
-if [[ ! -z "${MC_GID}" ]] && [ ${MC_UID} -ne "0" ]; then
+if [[ ! -z "${MC_GID}" ]] && [ ${MC_UID} != "0" ]; then
 	groupmod -g $MC_GID minecraft
 fi
 
 # Ensure ownership of data directory
-if [ ${MC_UID} -ne "0" ]; then
+if [[ ! -z "${MC_UID}" ]] && [ ${MC_UID} != "0" ]; then
     realUid=$(id -u minecraft)
     realGid=$(id -g minecraft)
     chown -R $realUid:$realGid /data
 fi
 
 # Add more groups
-if [[ ! -z "${MC_ADD_GROUPS}" ]] && [ ${MC_UID} -ne "0" ]; then 
+if [[ ! -z "${MC_ADD_GROUPS}" ]] && [ ${MC_UID} != "0" ]; then 
 
 	groups=$(echo "${MC_ADD_GROUPS}" | tr "," "\n")
 
@@ -78,7 +78,7 @@ fi
 
 
 # Start Server
-if [ "$1" = "/server/wrapper" ] && [ ${MC_UID} -ne "0" ]; then
+if [ "$1" = "/server/wrapper" ] && [[ ! -z "${MC_UID}" ]] && [ ${MC_UID} != "0" ]; then
 	sudo -u minecraft PATH=$PATH "$@"
 else 
 	exec "$@"

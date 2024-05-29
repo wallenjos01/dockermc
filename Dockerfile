@@ -66,7 +66,6 @@ RUN set -eux; \
 COPY --from=1 --chmod=770 --chown=minecraft:minecraft /mcping/app/build/output/mcping.jar /server
 HEALTHCHECK --start-period=30s --interval=10s --retries=10 CMD ping-server -p $MC_PORT
 
-USER minecraft
 WORKDIR /server
 
 # Download Server
