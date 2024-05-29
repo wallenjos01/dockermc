@@ -78,7 +78,7 @@ fi
 
 
 # Start Server
-if [ "$1" = "/server/wrapper" ] && [[ ! -z "${MC_UID}" ]] && [ ${MC_UID} != "0" ]; then
+if [ "$1" = "/server/wrapper" ] && ([[ -z "${MC_UID}" ]] || [ ${MC_UID} != "0" ]); then
 	sudo -u minecraft PATH=$PATH "$@"
 else 
 	exec "$@"

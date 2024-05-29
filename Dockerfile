@@ -50,7 +50,7 @@ RUN set -eux; \
 
 RUN set -eux; \
 	apt-get update; \ 
-    	apt-get install -y sudo
+	apt-get install -y sudo
 
 COPY --chmod=775 docker-entrypoint.sh custom.ja[r] /
 COPY --from=0 --chown=minecraft:minecraft --chmod=775 /wrapper/wrapper /server
@@ -73,6 +73,7 @@ COPY --from=1 --chmod=770 --chown=minecraft:minecraft /mcdl/build/output/mcdl.ja
 RUN set -eux; \
 	cd /server; \
 	java -jar /server/mcdl.jar -t $TYPE -g -v $VERSION --serverWorkingDir /data $MCDL_ARGS; \
+	chown minecraft:minecraft /server/minecraft_server.jar /server/start.sh; \
 	rm /custom.jar
 
 USER root
