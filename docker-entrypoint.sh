@@ -47,11 +47,13 @@ fi
 # Set user ID
 if [[ ! -z "${MC_UID}" ]] && [ ${MC_UID} != "0" ]; then
 	usermod -u $MC_UID minecraft
+    entrypoint_log "$0: Set user ID"
 fi
 
 # Set group ID
 if [[ ! -z "${MC_GID}" ]] && [ ${MC_UID} != "0" ]; then
 	groupmod -g $MC_GID minecraft
+    entrypoint_log "$0: Set group ID"
 fi
 
 # Ensure ownership of data directory
@@ -59,6 +61,7 @@ if [[ ! -z "${MC_UID}" ]] && [ ${MC_UID} != "0" ]; then
     realUid=$(id -u minecraft)
     realGid=$(id -g minecraft)
     chown -R $realUid:$realGid /data
+    entrypoint_log "$0: Set permissions for minecraft user"
 fi
 
 # Add more groups

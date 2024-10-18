@@ -6,4 +6,6 @@ if [ $# -lt 2 ]; then
 fi
 
 tag=${3:-minecraft-server-$1}
+
+export DOCKER_BUILDKIT=1 
 docker build -t $tag:$2 --build-arg TYPE=$1 --build-arg VERSION=$2 --build-arg MCDL_ARGS="${@:3}" .

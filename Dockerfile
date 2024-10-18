@@ -37,16 +37,15 @@ ARG UID=920
 ARG GID=920
 ARG MCDL_ARGS=""
 
-ENV MC_PORT 25565
+ENV MC_PORT=25565
 
 # Volumes
 VOLUME /data
 
 RUN set -eux; \
-	mkdir /data; \
+	mkdir -p /data; \
 	groupadd -g "${GID}" minecraft; \
-	useradd --create-home --no-log-init -s /bin/bash -d /server -u "${UID}" -g "${GID}" minecraft; \
-	chown minecraft:minecraft /data
+	useradd --create-home --no-log-init -s /bin/bash -d /server -u "${UID}" -g "${GID}" minecraft
 
 RUN set -eux; \
 	apt-get update; \ 
@@ -74,7 +73,11 @@ RUN set -eux; \
 	cd /server; \
 	java -jar /server/mcdl.jar -t $TYPE -g -v $VERSION --serverWorkingDir /data $MCDL_ARGS; \
 	chown minecraft:minecraft /server/minecraft_server.jar /server/start.sh; \
-	rm /custom.jar
+	chown -R minecraft:minecraft /data; \
+    chmod -R 775 /data; \
+    chown -R minecraft:minecraft /server/libraries; \
+    chmod -R 775 /server/libraries; \
+    rm /custom.jar
 
 USER root
 ENTRYPOINT [ "/docker-entrypoint.sh" ] 
