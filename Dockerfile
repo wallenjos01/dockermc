@@ -10,19 +10,19 @@ RUN set -eux; \
 	make
 
 # Build MCDL and MCPing
-FROM gradle:8.7-jdk$JAVA_VERSION
+FROM gradle:8-jdk$JAVA_VERSION
 
 COPY mcdl /mcdl
 COPY mcping /mcping
 
 RUN set -eux; \
 	cd /mcdl; \
-	gradle :build :copyFinalJar; \
+	gradle :build; \
 	cd ..
 
 RUN set -eux; \
 	cd /mcping; \
-	gradle :app:build :app:copyFinalJar; \
+	gradle :app:build; \
 	cd ..
 
 FROM eclipse-temurin:$JAVA_VERSION-jre-$BASE_DISTRO
@@ -62,21 +62,19 @@ RUN set -eux; \
 	chown minecraft:minecraft $MC_STDIN_PATH
 
 # Healthcheck
-COPY --from=1 --chmod=770 --chown=minecraft:minecraft /mcping/app/build/output/mcping.jar /server
+COPY --from=1 --chmod=770 --chown=minecraft:minecraft /mcping/app/build/libs/mcping-app-1.1.0.jar /server/mcping.jar
 HEALTHCHECK --start-period=30s --interval=10s --retries=10 CMD ping-server -p $MC_PORT
 
 WORKDIR /server
 
 # Download Server
-COPY --from=1 --chmod=770 --chown=minecraft:minecraft /mcdl/build/output/mcdl.jar /server
+COPY --from=1 --chmod=770 --chown=minecraft:minecraft /mcdl/build/libs/mcdl-1.0.0.jar /server/mcdl.jar
 RUN set -eux; \
 	cd /server; \
 	java -jar /server/mcdl.jar -t $TYPE -g -v $VERSION --serverWorkingDir /data $MCDL_ARGS; \
-	chown minecraft:minecraft /server/minecraft_server.jar /server/start.sh; \
-	chown -R minecraft:minecraft /data; \
+	chmod 775 /server/start.sh; \
+    chown minecraft:minecraft /data; \
     chmod -R 775 /data; \
-    chown -R minecraft:minecraft /server/libraries; \
-    chmod -R 775 /server/libraries; \
     rm /custom.jar
 
 USER root

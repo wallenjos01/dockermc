@@ -81,10 +81,12 @@ fi
 
 
 # Start Server
-if [ "$1" = "/server/wrapper" ] && ([[ -z "${MC_UID}" ]] || [ ${MC_UID} != "0" ]); then
+if [ "$1" = "/server/wrapper" ] && ([[ ! -z "${MC_UID}" ]] && [ "${MC_UID}" != "0" ]); then
+    entrypoint_log "$0: Running as user ${MC_UID}"
 	sudo -E -u minecraft PATH=$PATH "$@"
 else 
-	sudo -E "$@"
+    entrypoint_log "$0: Running as root"
+	sudo -E PATH=$PATH "$@"
 fi
 
 # Run Stop Scripts
