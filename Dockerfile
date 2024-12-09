@@ -62,7 +62,7 @@ RUN set -eux; \
 	chown minecraft:minecraft $MC_STDIN_PATH
 
 # Healthcheck
-COPY --from=1 --chmod=770 --chown=minecraft:minecraft /mcping/app/build/libs/mcping-app-1.1.0.jar /server/mcping.jar
+COPY --from=1 --chmod=770 --chown=minecraft:minecraft /mcping/app/build/libs/mcping-app-1.2.0.jar /server/mcping.jar
 HEALTHCHECK --start-period=30s --interval=10s --retries=10 CMD ping-server -p $MC_PORT
 
 WORKDIR /server

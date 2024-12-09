@@ -79,6 +79,11 @@ if [[ ! -z "${MC_ADD_GROUPS}" ]] && [ ${MC_UID} != "0" ]; then
 	done
 fi
 
+# Mark EULA as accepted if requested
+if [ "${MC_ACCEPT_EULA}" = "1" ]; then
+    echo "eula=true" > /data/eula.txt
+fi
+
 
 # Start Server
 if [ "$1" = "/server/wrapper" ] && ([[ ! -z "${MC_UID}" ]] && [ "${MC_UID}" != "0" ]); then
