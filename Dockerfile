@@ -68,7 +68,7 @@ HEALTHCHECK --start-period=30s --interval=10s --retries=10 CMD ping-server -p $M
 WORKDIR /server
 
 # Download Server
-COPY --from=1 --chmod=770 --chown=minecraft:minecraft /mcdl/build/libs/mcdl-1.0.0.jar /server/mcdl.jar
+COPY --from=1 --chmod=770 --chown=minecraft:minecraft /mcdl/build/libs/mcdl-1.1.0-SNAPSHOT.jar /server/mcdl.jar
 RUN set -eux; \
 	cd /server; \
 	java -jar /server/mcdl.jar -t $TYPE -g -v $VERSION --serverWorkingDir /data $MCDL_ARGS; \

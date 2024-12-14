@@ -13,4 +13,4 @@ else
 fi
 
 tag=${3:-minecraft-server-$1}
-docker build -t $tag:$2 --build-arg TYPE=custom --build-arg VERSION=$2 --build-arg MCDL_ARGS="--customJarPath /custom.jar ${@:3}" .
+docker build -t $tag:$2 --build-arg TYPE=custom --build-arg VERSION=$2 --build-arg MCDL_ARGS="--customJarPath /custom.jar ${*:4}" .

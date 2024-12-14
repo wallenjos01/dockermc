@@ -37,7 +37,7 @@ void handleQuit(int signal) {
 	fsync(pipes[1]);
 }
 
-void main(int argc, const char** argv) {
+int main(int argc, const char** argv) {
 
 	if(pipe(pipes) < 0) {
 		printf("Unable to create pipes!");
@@ -61,7 +61,7 @@ void main(int argc, const char** argv) {
 
 	} else { // Main Process	
 
-		char* pipePath = getenv("MC_STDIN_PIPE");
+		const char* pipePath = getenv("MC_STDIN_PIPE");
 		if(pipePath == NULL) {
 			pipePath = defaultPipePath;
 		}
@@ -80,5 +80,7 @@ void main(int argc, const char** argv) {
 			pipeFd = -1;
 		}
 	}
+
+    return 0;
 }
 
